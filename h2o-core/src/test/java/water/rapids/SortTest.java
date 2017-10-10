@@ -54,6 +54,120 @@ public class SortTest extends TestUtil {
     }
   }
 
+/*
+  @Test public void testGeneratedFrames4Merge() {
+    Vec tempV;
+    Random rand = new Random();
+*/
+/*    String[] allNames = {"/Users/wendycwong/temp/seed1.csv", "/Users/wendycwong/temp/merged1.csv",
+            "/Users/wendycwong/temp/frameA1.csv", "/Users/wendycwong/temp/frameB1.csv",
+            "/Users/wendycwong/temp/mergedLeft1.csv"};*//*
+
+    String[] allNames = {"/Users/wendycwong/temp/seed2.csv", "/Users/wendycwong/temp/merged2.csv",
+            "/Users/wendycwong/temp/frameA2.csv", "/Users/wendycwong/temp/frameB2.csv",
+            "/Users/wendycwong/temp/mergedLeft2.csv"};
+    Frame fr = parse_test_file(allNames[0]);
+    //Frame sortedfr = fr.sort(new int[]{0}); // sorted merged frame
+    double includeBothProb = 0.8;
+
+    ArrayList<Integer> includeA = new ArrayList<Integer>();
+    ArrayList<Integer> includeB = new ArrayList<Integer>();
+    ArrayList<Integer> includeBoth = new ArrayList<Integer>();
+
+    for (int index = 0; index < fr.numRows(); index++) {
+      if (rand.nextDouble() > 0.5)
+        includeA.add(index);  // pick up the row indices to be included in Frame B
+      else
+        includeB.add(index);
+
+      if (rand.nextDouble() > includeBothProb) {
+        includeBoth.add(index); // add to both Frame A and B
+        if (!includeA.contains(index))
+          includeA.add(index);
+
+        if (!includeB.contains(index))
+          includeB.add(index);
+      }
+    }
+
+*/
+/*    double[][] keyBoth = new double[1][includeBoth.size()];
+    double[][] mergedBoth = new double[2][includeBoth.size()];
+    fillArrays(keyBoth[0], mergedBoth, null, includeBoth, sortedfr, 0, false, null);
+    double[][] tempKey = new double[1][keyBoth.length];
+    Frame part1 = new water.util.ArrayUtils().frame(transpose(keyBoth));
+    part1.add(new water.util.ArrayUtils().frame(transpose(mergedBoth)));
+    try {
+      writeFrameToCSV(allNames[1], part1, true, false);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }*//*
+
+
+    double[][] keyA = new double[1][includeA.size()];
+    double[][] colA = new double[1][includeA.size()];
+    fillArrays(keyA[0], null, colA[0], includeA, fr, 1, false, null);
+    Frame part2 = new water.util.ArrayUtils().frame(transpose(keyA));
+    part2.add(new water.util.ArrayUtils().frame(transpose(colA)));
+    try {
+      writeFrameToCSV(allNames[2], part2, true, false);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    double[][] keyB = new double[1][includeB.size()];
+    double[][] colB = new double[1][includeB.size()];
+    fillArrays(keyB[0], null, colB[0], includeB, fr, 2, false, null);
+    Frame part3 = new water.util.ArrayUtils().frame(transpose(keyB));
+    part3.add(new water.util.ArrayUtils().frame(transpose(colB)));
+    try {
+      writeFrameToCSV(allNames[3], part3, true, false);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+*/
+/*    double[][] keyLeft = new double[1][includeA.size()];
+    double[][] mergedLeftAll = new double[2][includeA.size()];
+    fillArrays(keyLeft[0], mergedLeftAll, null, includeA, sortedfr, 2, true, includeBoth);
+    Frame part4 = new water.util.ArrayUtils().frame(transpose(keyLeft));
+    part4.add(new water.util.ArrayUtils().frame(transpose(mergedLeftAll)));
+    try {
+      writeFrameToCSV(allNames[4], part4, true, false);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }*//*
+
+  }
+
+  public void fillArrays(double[] keys, double[][] merged, double[] oneCol, ArrayList<Integer> rowIndices, Frame sourceF, int colInd, boolean addNAs, ArrayList<Integer> commRowIndices) {
+    if (merged == null) {
+      for (int index = 0; index < keys.length; index++) {
+        int rowIndex = rowIndices.get(index);
+        keys[index] = (int) sourceF.vec(0).at(rowIndex);
+        oneCol[index] = sourceF.vec(colInd).at(rowIndex);
+      }
+    } else {
+      for (int index = 0; index < keys.length; index++) {
+        int rowIndex = rowIndices.get(index);
+        keys[index] = sourceF.vec(0).at8(rowIndex);
+        merged[0][index] = sourceF.vec(1).at(rowIndex);
+        merged[1][index] = sourceF.vec(2).at(rowIndex);
+      }
+
+      if (addNAs) {
+        for (int index=0; index < rowIndices.size(); index++) {
+          int rowIndex = rowIndices.get(index);
+
+          if (!commRowIndices.contains(rowIndex)) {
+            merged[1][index] = Double.NaN;
+          }
+        }
+      }
+    }
+  }
+*/
+
   @Test public void testBasicSortJava2() {
     Frame fr = null, res = null;
     try {
